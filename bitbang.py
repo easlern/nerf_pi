@@ -3,6 +3,8 @@ import time
 import sys
 
 
+LOOPS_IN_WAIT = 50
+
 class SendByteTimeoutException (Exception):
 	def __init__ (self):
 		Exception.__init__ (self)
@@ -31,12 +33,10 @@ class BitBanger:
 		for x in range (1000000):
 			pass
 	def __del__ (self):
-		self.gpio.cleanup()
-	def cleanup (self):
 		print ('cleaning up')
 		self.clear (self.enablePin)
-		print ('cleaned up')
 		self.gpio.cleanup()
+		print ('cleaned up')
 	def set (self, pin):
 		self.gpio.output (pin, self.gpio.HIGH)
 	def clear (self, pin):
@@ -54,7 +54,7 @@ class BitBanger:
 	def clearMosi (self):
 		self.clear (self.mosiPin)
 	def wait (self):
-		for x in range (400):
+		for x in range (LOOPS_IN_WAIT):
 			pass
 	def receiveByte (self):
 		# We are always master!
@@ -71,7 +71,7 @@ class BitBanger:
 		return received
 	def sendByte (self, byte):
 		try:
-			print ("sending byte " + str (byte))
+			#print ("sending byte " + str (byte))
 			# Wait for the PIC to signal it's ready for 
 			#   a byte.
 			startedWaiting = time.time()
@@ -91,5 +91,4 @@ class BitBanger:
 			self.clearClock()
 		except SendByteTimeoutException:
 			print ("sending byte timed out!")
-			self.cleanup()
 			raise Exception()

@@ -83,22 +83,22 @@ class Nerf:
 		length = self.bitBanger.receiveByte()
 		return self.__receiveFixedLengthPayload__ (length)
 	def sendMessage (self, toAddressBytes, payloadBytes):
-		print ('sending message')
+		#print ('sending message')
 		self.__sendCommandWithFixedLengthPayload__ (SET_TARGET_ADDRESS, toAddressBytes)
 		self.__sendCommand__ (OVER_AND_OUT)
 		self.__sendCommandWithVariableLengthPayload__ (SEND_A_MESSAGE, payloadBytes)
 		self.__sendCommand__ (OVER_AND_OUT)
-		print ('done sending message')
+		#print ('done sending message')
 	def receiveMessage (self):
-		print ('receiving message')
+		#print ('receiving message')
 		self.__sendCommand__ (RECEIVE_A_MESSAGE)
 		bytes = self.__receiveVariableLengthPayload__()
 		if (len (bytes) < 1):
-			print ('no message waiting')
+			#print ('no message waiting')
 			self.__sendCommand__ (OVER_AND_OUT)
 			return None
-		print ('message of ' + str(len (bytes)) + ' bytes waiting!')
+		#print ('message of ' + str(len (bytes)) + ' bytes waiting!')
 		message = Message (self.addressBytes, bytes)
 		self.__sendCommand__ (OVER_AND_OUT)
-		print ('received message ' + str (len (message.payloadBytes)) + ' bytes long: ' + str (message.payloadBytes))
+		#print ('received message ' + str (len (message.payloadBytes)) + ' bytes long: ' + str (message.payloadBytes))
 		return message

@@ -19,7 +19,7 @@ class BitBanger:
 		self.gpio.setmode (gpio.BOARD)
 		self.gpio.setup (self.clockPin, gpio.OUT)
 		self.gpio.setup (self.misoPin, gpio.IN, pull_up_down=gpio.PUD_DOWN)
-		print ("using misoPin " + str(self.misoPin))
+		#print ("using misoPin " + str(self.misoPin))
 		self.gpio.setup (self.mosiPin, gpio.OUT)
 		self.gpio.setup (self.enablePin, gpio.OUT)
 		# Disable to start
@@ -33,10 +33,10 @@ class BitBanger:
 		for x in range (1000000):
 			pass
 	def __del__ (self):
-		print ('cleaning up')
+		#print ('cleaning up')
 		self.clear (self.enablePin)
 		self.gpio.cleanup()
-		print ('cleaned up')
+		#print ('cleaned up')
 	def set (self, pin):
 		self.gpio.output (pin, self.gpio.HIGH)
 	def clear (self, pin):
